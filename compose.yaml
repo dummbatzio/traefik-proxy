@@ -1,0 +1,47 @@
+services:
+  traefik:
+    image: traefik:v3.4
+    container_name: traefik
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 50m
+    security_opt:
+      - no-new-privileges:true
+    env_file:
+      - .env
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/ubuntu/docker/traefik/traefik.yaml:/traefik.yaml:ro
+      - /home/ubuntu/docker/traefik/acme.json:/acme.json
+      - /home/ubuntu/docker/traefik/config.yaml:/config.yaml:ro
+    labels:
+      - "traefik.enable=true"
+      # config for http
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.YOUR_DOMAIN.tld`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      # repeat for https
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.YOUR_DOMAIN.tld`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=le"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=YOUR_DOMAIN.tld"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.YOUR_DOMAIN.tld"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
+
+networks:
+  proxy:
+    external: true
