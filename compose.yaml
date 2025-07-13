@@ -17,7 +17,7 @@ services:
       - 443:443
     environment:
       - DOMAIN=${DOMAIN}
-      - LE_EMAIL=${LE_EMAIL}
+      - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${LE_EMAIL}
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
     volumes:
       - /etc/localtime:/etc/localtime:ro

@@ -22,10 +22,20 @@ providers:
 certificatesResolvers:
   le:
     acme:
-      email: ${LE_EMAIL}
       storage: /acme.json
       tlsChallenge: {}
-
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12 # refuse TLS 1.0 & 1.1
+      cipherSuites: # (optional) drop weak ciphers that are still legal in TLS 1.2
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      curvePreferences: # (optional) forward secrecy preference
+        - CurveP256
+        - CurveP384
 log:
   level: "INFO"
 accessLog: {}
