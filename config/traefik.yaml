@@ -22,12 +22,10 @@ providers:
 certificatesResolvers:
   le:
     acme:
-      email: your@email.com
-      storage: acme.json
+      email: ${LE_EMAIL}
+      storage: /acme.json
       tlsChallenge: {}
 
 log:
   level: "INFO"
-  filePath: "/var/log/traefik/traefik.log"
-accessLog:
-  filePath: "/var/log/traefik/access.log"
+accessLog: {}
