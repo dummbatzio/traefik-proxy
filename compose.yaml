@@ -42,6 +42,10 @@ services:
       # 301 redirect to https
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.permanent=true"
+      # 301 dotcom redirect
+      - "traefik.http.middlewares.redirect-to-com.redirectregex.regex=^https?://([a-z0-9-]+.)?${SECOND_LEVEL_DOMAIN}.de(/.*)?"
+      - "traefik.http.middlewares.redirect-to-com.redirectregex.replacement=https://$${1}${SECOND_LEVEL_DOMAIN}.com$${2}"
+      - "traefik.http.middlewares.redirect-to-com.redirectregex.permanent=true"
       # compress output
       - "traefik.http.middlewares.traefik-compress.compress=true"
 
