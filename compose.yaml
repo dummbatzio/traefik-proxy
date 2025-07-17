@@ -22,6 +22,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/acme.json:/acme.json
     labels:
       - "traefik.enable=true"
       # config for http
