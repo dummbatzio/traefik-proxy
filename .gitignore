@@ -1,2 +1,8 @@
 .env
 acme.json
+
+certs/*
+!certs/.gitkeep
+
+config/*
+!config/config.yaml
