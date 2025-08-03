@@ -40,6 +40,12 @@ services:
       - "traefik.http.middlewares.traefik-dashboard-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
 
       # global middlewares
+      # security headers
+      - "traefik.http.middlewares.traefik-security-headers.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.traefik-security-headers.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.traefik-security-headers.headers.stsPreload=true"
+      - "traefik.http.middlewares.traefik-security-headers.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.traefik-security-headers.headers.contentTypeNosniff=true"
       # 301 redirect to https
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.permanent=true"
