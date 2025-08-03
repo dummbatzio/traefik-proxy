@@ -44,7 +44,7 @@ services:
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.permanent=true"
       # redirect to www
-      - "traefik.http.middlewares.traefik-redirect-to-www.redirectregex.regex=^https?://(?:www\\.)?${DOMAIN//./\\.}(/.*)?$"
+      - "traefik.http.middlewares.traefik-redirect-to-www.redirectregex.regex=^https?://(?:www\\.)?${DOMAIN}/?(.*)"
       - "traefik.http.middlewares.traefik-redirect-to-www.redirectregex.replacement=https://www.${DOMAIN}/$${1}"
       - "traefik.http.middlewares.traefik-redirect-to-www.redirectregex.permanent=true"
       # redirect to root
