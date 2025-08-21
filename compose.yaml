@@ -46,6 +46,11 @@ services:
       - "traefik.http.middlewares.traefik-security-headers.headers.stsPreload=true"
       - "traefik.http.middlewares.traefik-security-headers.headers.browserXssFilter=true"
       - "traefik.http.middlewares.traefik-security-headers.headers.contentTypeNosniff=true"
+      # Rate Limit per IP (120 request per minute per IP)
+      - "traefik.http.middlewares.traefik-limit-per-ip.ratelimit.average=120"
+      - "traefik.http.middlewares.traefik-limit-per-ip.ratelimit.period=1m"
+      - "traefik.http.middlewares.traefik-limit-per-ip.ratelimit.burst=180"
+      - "traefik.http.middlewares.traefik-limit-per-ip.ratelimit.sourceCriterion.ipStrategy.depth=1"
       # 301 redirect to https
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.permanent=true"
